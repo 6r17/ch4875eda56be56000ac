@@ -1,0 +1,10 @@
+lxml
+exorde_data
+aiohttp
+flashtext
+HTMLParser
+
+[dev]
+pytest
+pytest-cov
+pytest-asyncio
