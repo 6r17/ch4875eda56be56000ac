@@ -547,7 +547,6 @@ DEFAULT_MAXIMUM_ITEMS = 15
 DEFAULT_MIN_POST_LENGTH = 10
 
 def read_parameters(parameters):
-    global MAX_NUMBER_CONSECUTIVE_OLD_COMMENTS, CONSECUTIVE_OLD_COMMENTS_COUNT
     # Check if parameters is not empty or None
     if parameters and isinstance(parameters, dict):
         try:
