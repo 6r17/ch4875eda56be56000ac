@@ -542,18 +542,50 @@ async def scrape_4chan(
             return
 
 
+DEFAULT_OLDNESS_SECONDS = 30
+DEFAULT_MAXIMUM_ITEMS = 15
+DEFAULT_MIN_POST_LENGTH = 10
+
+def read_parameters(parameters):
+    global MAX_NUMBER_CONSECUTIVE_OLD_COMMENTS, CONSECUTIVE_OLD_COMMENTS_COUNT
+    # Check if parameters is not empty or None
+    if parameters and isinstance(parameters, dict):
+        try:
+            max_oldness_seconds = parameters.get("max_oldness_seconds", DEFAULT_OLDNESS_SECONDS)
+        except KeyError:
+            max_oldness_seconds = DEFAULT_OLDNESS_SECONDS
+
+        try:
+            maximum_items_to_collect = parameters.get("maximum_items_to_collect", DEFAULT_MAXIMUM_ITEMS)
+        except KeyError:
+            maximum_items_to_collect = DEFAULT_MAXIMUM_ITEMS
+
+        try:
+            min_post_length = parameters.get("min_post_length", DEFAULT_MIN_POST_LENGTH)
+        except KeyError:
+            min_post_length = DEFAULT_MIN_POST_LENGTH
+    else:
+        # Assign default values if parameters is empty or None
+        max_oldness_seconds = DEFAULT_OLDNESS_SECONDS
+        maximum_items_to_collect = DEFAULT_MAXIMUM_ITEMS
+        min_post_length = DEFAULT_MIN_POST_LENGTH
+
+    return max_oldness_seconds, maximum_items_to_collect, min_post_length
+
+
 async def generate_url(keyword: str = "BTC"):
     logging.info("[Pre-collect] generating 4chan target URL.")
     return "https://boards.4channel.org/biz/"
 
 
 async def query(parameters: dict) -> AsyncGenerator[Item, None]:
+    max_oldness_seconds, MAXIMUM_ITEMS_TO_COLLECT, min_post_length = read_parameters(parameters)
     url = await generate_url(**parameters["url_parameters"])
     if not has_substring(["4chan", "4channel", "4cdn"], url):
         raise ValueError("Not a 4chan URL")
     async for result in scrape_4chan(
-        max_oldness_seconds=120,
-        maximum_to_collect=25,
+        max_oldness_seconds=max_oldness_seconds,
+        maximum_to_collect=MAXIMUM_ITEMS_TO_COLLECT,
         skipping_thread_probability_percent=20,
     ):
         yield result
