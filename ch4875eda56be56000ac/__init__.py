@@ -33,6 +33,8 @@ board_json_api_endpoints = [
     "https://a.4cdn.org/biz/catalog.json",
     "https://a.4cdn.org/biz/catalog.json",
     "https://a.4cdn.org/biz/catalog.json",
+    "https://a.4cdn.org/v/catalog.json",
+    "https://a.4cdn.org/v/catalog.json",
     "https://boards.4channel.org/pol/catalog.json",
     "https://boards.4channel.org/pol/catalog.json",
     "https://boards.4channel.org/pol/catalog.json",
@@ -51,10 +53,21 @@ board_json_api_endpoints = [
     "https://a.4cdn.org/sp/catalog.json",
     "https://a.4cdn.org/bant/catalog.json",
     "https://a.4cdn.org/his/catalog.json",
+    "https://a.4cdn.org/trv/catalog.json",
+    "https://a.4cdn.org/mu/catalog.json",
+    "https://a.4cdn.org/out/catalog.json",
+    "https://a.4cdn.org/mlp/catalog.json",
+    "https://a.4cdn.org/xs/catalog.json",
     "https://a.4cdn.org/lit/catalog.json",
     "https://a.4cdn.org/fa/catalog.json",
     "https://a.4cdn.org/o/catalog.json",
-    "https://a.4cdn.org/o/catalog.json"   
+    "https://a.4cdn.org/ic/catalog.json",
+    "https://a.4cdn.org/an/catalog.json",
+    "https://a.4cdn.org/diy/catalog.json",
+    "https://a.4cdn.org/p/catalog.json",
+    "https://a.4cdn.org/an/catalog.json",
+    "https://a.4cdn.org/n/catalog.json",
+    "https://a.4cdn.org/vrpg/catalog.json"   
 ]
 
 BAD_WORDS_ENDPOINT = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/targets/bad_words_list.txt"
