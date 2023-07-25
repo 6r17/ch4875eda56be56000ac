@@ -361,6 +361,16 @@ def return_true_with_probability(k):
 ##############                          COLLECTING POSTS ON 4CHAN                   ########################
 ############################################################################################################
 
+USER_AGENT_LIST = [
+    'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15'
+]
 
 async def scrape_4chan(
     max_oldness_seconds=60 * 50,
@@ -401,8 +411,11 @@ async def scrape_4chan(
     yielded_objects_count = 0
 
     # Perform HTTP request to the selected board endpoint
-    async with aiohttp.ClientSession() as session:
-        async with session.get(selected_board_endpoint) as response:
+    
+    timeout=aiohttp.ClientTimeout(total=25)
+    headers={'User-Agent': random.choice(USER_AGENT_LIST)}
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        async with session.get(selected_board_endpoint, headers=headers) as response:
             if response.status == 200:
                 data = await response.text()
                 r = json.loads(data)
@@ -416,8 +429,10 @@ async def scrape_4chan(
     # Load the bad words from the file
     bad_words = []
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(BAD_WORDS_ENDPOINT) as response:
+        timeout=aiohttp.ClientTimeout(total=25)
+        headers={'User-Agent': random.choice(USER_AGENT_LIST)}
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with session.get(BAD_WORDS_ENDPOINT, headers=headers) as response:
                 if response.status == 200:
                     data = await response.text()
                     bad_words = data.split("\n")
